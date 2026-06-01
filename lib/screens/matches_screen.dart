@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../channel_repository.dart';
 import '../models/match_event.dart';
+import '../services/ads_service.dart';
+import '../services/prefs_service.dart';
 import '../services/sports_service.dart';
 import 'player_screen.dart';
 
@@ -43,7 +45,9 @@ class _MatchesScreenState extends State<MatchesScreen> {
     if (!silent) setState(() => _loading = true);
     final id = SportsService.leagues[_leagueName]!;
     try {
-      final events = await SportsService.fetchLeagueEvents(id);
+      final key = await PrefsService.getSportsKey();
+      final events =
+          await SportsService.fetchLeagueEvents(id, premiumKey: key);
       if (!mounted) return;
       setState(() {
         _events = events;
@@ -72,9 +76,12 @@ class _MatchesScreenState extends State<MatchesScreen> {
       );
       return;
     }
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => PlayerScreen(channel: channel)),
-    );
+    AdsService.instance.maybeShowInterstitial(() {
+      if (!mounted) return;
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => PlayerScreen(channel: channel)),
+      );
+    });
   }
 
   @override

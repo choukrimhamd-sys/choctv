@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/banner_ad_widget.dart';
 import 'home_screen.dart';
 import 'matches_screen.dart';
 
@@ -18,7 +19,14 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _index, children: _pages),
+      body: Column(
+        children: [
+          Expanded(
+            child: IndexedStack(index: _index, children: _pages),
+          ),
+          const BannerAdWidget(), // bannière au-dessus de la barre d'onglets
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: (i) => setState(() => _index = i),

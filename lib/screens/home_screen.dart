@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../channel_repository.dart';
 import '../models/channel.dart';
+import '../services/ads_service.dart';
 import '../services/playlist_service.dart';
 import '../services/prefs_service.dart';
 import '../widgets/channel_card.dart';
@@ -106,9 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _recents = await PrefsService.getRecents();
     if (!mounted) return;
     setState(() {});
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => PlayerScreen(channel: channel)),
-    );
+    AdsService.instance.maybeShowInterstitial(() {
+      if (!mounted) return;
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => PlayerScreen(channel: channel)),
+      );
+    });
   }
 
   Future<void> _openSettings() async {

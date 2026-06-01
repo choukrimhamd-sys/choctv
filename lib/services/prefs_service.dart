@@ -12,6 +12,7 @@ class PrefsService {
   static const _kRecents = 'recent_channels';
   static const _kSources = 'playlist_sources';
   static const _kActiveSource = 'active_source_index';
+  static const _kSportsKey = 'sports_api_key';
   static const _kLegacyUrl = 'playlist_url';
   static const int _maxRecents = 12;
 
@@ -81,6 +82,18 @@ class PrefsService {
     var idx = await getActiveSourceIndex();
     if (idx < 0 || idx >= sources.length) idx = 0;
     return sources[idx];
+  }
+
+  // --- Clé API premium TheSportsDB (scores en direct) ---
+
+  static Future<String> getSportsKey() async {
+    final p = await SharedPreferences.getInstance();
+    return p.getString(_kSportsKey) ?? '';
+  }
+
+  static Future<void> setSportsKey(String key) async {
+    final p = await SharedPreferences.getInstance();
+    await p.setString(_kSportsKey, key.trim());
   }
 
   // --- Favoris (URLs des chaînes favorites) ---

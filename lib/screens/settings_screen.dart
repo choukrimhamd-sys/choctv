@@ -15,6 +15,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   List<PlaylistSource> _sources = [];
   int _active = 0;
   bool _loading = true;
+  final _sportsKey = TextEditingController();
 
   @override
   void initState() {
@@ -25,8 +26,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _init() async {
     _sources = await PrefsService.getSources();
     _active = await PrefsService.getActiveSourceIndex();
+    _sportsKey.text = await PrefsService.getSportsKey();
     if (_active >= _sources.length) _active = 0;
     setState(() => _loading = false);
+  }
+
+  @override
+  void dispose() {
+    _sportsKey.dispose();
+    super.dispose();
   }
 
   Future<void> _persist() async {
@@ -107,6 +115,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   );
                 }),
+                const SizedBox(height: 24),
+                const Divider(),
+                const SizedBox(height: 8),
+                Text('Scores en direct (optionnel)',
+                    style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 4),
+                const Text(
+                  'Les scores en cours de match sont une option payante de '
+                  'TheSportsDB (~9 $/mois). Colle ta clé premium ici pour les '
+                  'activer. Sans clé : matchs à venir + résultats finaux.',
+                  style: TextStyle(fontSize: 12),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _sportsKey,
+                  decoration: const InputDecoration(
+                    labelText: 'Clé premium TheSportsDB',
+                    border: OutlineInputBorder(),
+                    isDense: true,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: FilledButton(
+                    onPressed: () async {
+                      await PrefsService.setSportsKey(_sportsKey.text);
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Clé enregistrée.')),
+                      );
+                    },
+                    child: const Text('Enregistrer la clé'),
+                  ),
+                ),
                 const SizedBox(height: 24),
                 const Divider(),
                 const SizedBox(height: 8),
