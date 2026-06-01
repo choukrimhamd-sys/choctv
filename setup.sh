@@ -28,12 +28,6 @@ else:
     # Nom affiché sous l'icône
     import re
     s = re.sub(r'android:label="[^"]*"', 'android:label="chocTV"', s, count=1)
-    # App ID AdMob (ID de TEST Google — remplace par le tien avant publication)
-    if 'com.google.android.gms.ads.APPLICATION_ID' not in s:
-        meta = ('        <meta-data\n'
-                '            android:name="com.google.android.gms.ads.APPLICATION_ID"\n'
-                '            android:value="ca-app-pub-3940256099942544~3347511713"/>\n')
-        s = s.replace('</application>', meta + '    </application>', 1)
     open(path, 'w', encoding='utf-8').write(s)
     print('   Manifest patché.')
 PY

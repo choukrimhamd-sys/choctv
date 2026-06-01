@@ -37,17 +37,6 @@ dans `.github/workflows/build-apk.yml`.
 - [x] Multi-sources : plusieurs playlists nommées, URL ou M3U collé, choix de l'active
 - [x] Nom + icône chocTV (auto au build via flutter_launcher_icons)
 - [x] Scripts setup.sh / build_apk.sh + workflow CI GitHub Actions
-- [x] Publicités AdMob : bannière en bas + interstitiel occasionnel (IDs de TEST)
-
-## Passer la pub en réel (avant publication)
-
-1. Créer un compte sur admob.google.com, déclarer l'app, créer les blocs d'annonces.
-2. Dans `lib/services/ads_service.dart` : remplacer `bannerUnitId` et
-   `interstitialUnitId` par tes vrais identifiants.
-3. Dans `setup.sh` : remplacer l'App ID de test
-   (`ca-app-pub-3940256099942544~3347511713`) par ton vrai App ID AdMob.
-4. AdMob fonctionne même hors Google Play, MAIS interdit le contenu protégé
-   sans droits → garder des sources légales.
 
 ## Pas encore fait (optionnel)
 

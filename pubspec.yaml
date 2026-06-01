@@ -25,11 +25,8 @@ dependencies:
   # Formatage des dates (agenda des matchs)
   intl: ^0.19.0
 
-  # Stockage local (favoris, récents, sources)
+  # Stockage local (favoris, récents, URL de playlist)
   shared_preferences: ^2.2.0
-
-  # Publicités AdMob
-  google_mobile_ads: ^5.1.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
